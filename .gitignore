@@ -1,0 +1,12 @@
+*~
+*.hi
+*.o
+tags
+dist*
+result
+cabal.project*
+TAGS
+dist*
+result
+public/
+.*~
