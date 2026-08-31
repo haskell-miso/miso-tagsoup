@@ -25,7 +25,7 @@ import           Text.HTML.TagSoup.Tree (parseTree, TagTree(..))
 -- converts to `View m a`. Note: if HTML is malformed,
 -- (e.g. closing tags and opening tags are present) they will
 -- be removed.
-parseView :: Namespace -> MisoString -> [View model action]
+parseView :: Namespace -> MisoString -> [View context model action]
 parseView ns html = reverse (go (parseTree html) [])
   where
     go [] xs = xs
@@ -39,16 +39,16 @@ parseView ns html = reverse (go (parseTree html) [])
                  | (k, v) <- attrs
                  ]
         newNode =
-          VNode ns (ms name_) attrs' (reverse (go kids []))
+          VNode ns (ms name_) attrs' (reverse (go kids [])) mempty
       in
         go next (newNode:views)
     go (TagLeaf _ : next) views =
       go next views
 -----------------------------------------------------------------------------
-rawSVG :: MisoString -> [View model action]
+rawSVG :: MisoString -> [View context model action]
 rawSVG = parseView SVG
 -----------------------------------------------------------------------------
-rawHTML :: MisoString -> [View model action]
+rawHTML :: MisoString -> [View context model action]
 rawHTML = parseView HTML
 -----------------------------------------------------------------------------
 #ifndef VANILLA
